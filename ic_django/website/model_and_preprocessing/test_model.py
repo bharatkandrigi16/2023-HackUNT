@@ -24,7 +24,8 @@ for data, target in test_loader:
     output = model(data)
     loss = criterion(output, target)
     test_loss += loss.item()*data.size(0)
-    _, pred = torch.max(output, 1)
+    probabilities, pred = torch.max(output, 1)
+    probabilities_list = probabilities.cpu().detach().numpy().tolist()
     correct_tensor = pred.eq(target.data.view_as(pred))
     correct = np.squeeze(correct_tensor.numpy()) if not torch.cuda.is_available() else np.squeeze(correct_tensor.cpu().numpy())
     if len(target) == 12:
@@ -68,7 +69,14 @@ def process_single_image(path):
             input_batch = input_batch.cuda()
         output = model(input_batch)
     #Post-processing
+    probabilities = torch.nn.functional.softmax(output, dim=1)
+    probabilities_list = probabilities.cpu().detach().numpy().tolist()
+    print("Probabilities List: ",probabilities_list)
     _, predicted_idx = torch.max(output, 1)
+    print("Pred: ", predicted_idx)
     predicted_class = classes[predicted_idx.item()]
-    return predicted_class
+    print("Predicted Class: ", predicted_class)
+    return f'There is {max(probabilities_list[0])*100}% likelihood that you have {predicted_class} condition'
+
+
 
