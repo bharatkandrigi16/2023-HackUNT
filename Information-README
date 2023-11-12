@@ -1,0 +1,6 @@
+Imagining in this cold and allergy season in Texas, your skin might have several diseases problems than you might think of. 
+If you get it treated too late, it might heavily affect to your normal daily life. Our app is medical e-commerce, which utilize 
+Densenet model to train the machine learning and predict the problem you might have in this season. We took the dataset from
+Google and several hospital in the DFW-Metroplex to train our model, also we use doctor’s note to do second comparison to make
+sure the machine predictions has high percentage of accuracy. 
+
